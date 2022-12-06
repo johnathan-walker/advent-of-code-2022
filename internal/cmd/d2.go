@@ -10,19 +10,19 @@ import (
 )
 
 func init() {
-	rootCmd.AddCommand(dayTwo)
-	dayTwo.AddCommand(d2s1)
-	dayTwo.AddCommand(d2s2)
+	rootCmd.AddCommand(d2Cmd)
+	d2Cmd.AddCommand(d2s1Cmd)
+	d2Cmd.AddCommand(d2s2Cmd)
 }
 
-var dayTwo = &cobra.Command{
-	Use:   "dayTwo",
-	Short: "Runs dayTwo solution",
+var d2Cmd = &cobra.Command{
+	Use:   "d2",
+	Short: "Runs the d2 solution.",
 }
 
-var d2s1 = &cobra.Command{
-	Use:   "starOne",
-	Short: "Runs daytwo starOne solution",
+var d2s1Cmd = &cobra.Command{
+	Use:   "s1",
+	Short: "Runs the d2 s1 solution.",
 	Run: func(cmd *cobra.Command, args []string) {
 		pwd, err := os.Getwd()
 		if err != nil {
@@ -47,9 +47,9 @@ var d2s1 = &cobra.Command{
 	},
 }
 
-var d2s2 = &cobra.Command{
-	Use:   "starTwo",
-	Short: "Runs dayOne starTwo solution",
+var d2s2Cmd = &cobra.Command{
+	Use:   "s2",
+	Short: "Runs the d2 s2 solution.",
 	Run: func(cmd *cobra.Command, args []string) {
 		pwd, err := os.Getwd()
 		if err != nil {

@@ -1,4 +1,4 @@
-package dayone
+package countingcalories
 
 import (
 	"bufio"
@@ -28,13 +28,13 @@ func (ce *CaloricElf) String() string {
 	return string(b)
 }
 
-func RunStarOne(r io.Reader) (int, error) {
+func PartOne(r io.Reader) (int, error) {
 	s, h := setupMax(r)
 	err := readIn(s, &h)
 	return h.Pop().Calories, err
 }
 
-func RunStarTwo(r io.Reader) ([]int, error) {
+func PartTwo(r io.Reader) ([]int, error) {
 	s, h := setupMax(r)
 	err := readIn(s, &h)
 	return []int{h.Pop().Calories, h.Pop().Calories, h.Pop().Calories}, err

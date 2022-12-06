@@ -5,24 +5,24 @@ import (
 	"log"
 	"os"
 
-	dayone "github.com/johnathan-walker/advent-of-code-2022/internal/dayOne"
+	dayone "github.com/johnathan-walker/advent-of-code-2022/internal/countingcalories"
 	"github.com/spf13/cobra"
 )
 
 func init() {
-	rootCmd.AddCommand(dayOne)
-	dayOne.AddCommand(starOne)
-	dayOne.AddCommand(starTwo)
+	rootCmd.AddCommand(d1Cmd)
+	d1Cmd.AddCommand(d1s1Cmd)
+	d1Cmd.AddCommand(d1s2Cmd)
 }
 
-var dayOne = &cobra.Command{
-	Use:   "dayOne",
-	Short: "Runs dayOne solution",
+var d1Cmd = &cobra.Command{
+	Use:   "d1",
+	Short: "Runs the d1 solution.",
 }
 
-var starOne = &cobra.Command{
-	Use:   "starOne",
-	Short: "Runs dayOne starOne solution",
+var d1s1Cmd = &cobra.Command{
+	Use:   "s1",
+	Short: "Runs the d1 s1 solution.",
 	Run: func(cmd *cobra.Command, args []string) {
 		pwd, err := os.Getwd()
 		if err != nil {
@@ -37,7 +37,7 @@ var starOne = &cobra.Command{
 			}
 		}()
 
-		cals, err := dayone.RunStarOne(f)
+		cals, err := dayone.PartOne(f)
 		if err != nil {
 			log.Printf("could not run code: %v\n", err)
 			os.Exit(1)
@@ -46,9 +46,9 @@ var starOne = &cobra.Command{
 	},
 }
 
-var starTwo = &cobra.Command{
-	Use:   "starTwo",
-	Short: "Runs dayOne starTwo solution",
+var d1s2Cmd = &cobra.Command{
+	Use:   "s2",
+	Short: "Runs the d1 s2 solution.",
 	Run: func(cmd *cobra.Command, args []string) {
 		pwd, err := os.Getwd()
 		if err != nil {
@@ -63,7 +63,7 @@ var starTwo = &cobra.Command{
 			}
 		}()
 
-		topThree, err := dayone.RunStarTwo(f)
+		topThree, err := dayone.PartTwo(f)
 		if err != nil {
 			log.Printf("could not run code: %v\n", err)
 			os.Exit(1)
