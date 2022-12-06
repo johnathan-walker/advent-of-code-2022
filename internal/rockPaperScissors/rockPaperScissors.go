@@ -8,14 +8,14 @@ import (
 )
 
 func PartOne(r io.Reader) (int, error) {
-	return getScore(r, analyzedRound)
+	return getScore(r, calcPartOne)
 }
 
 func PartTwo(r io.Reader) (int, error) {
-	return getScore(r, calculateRound)
+	return getScore(r, calcPartTwo)
 }
 
-func getScore(r io.Reader, compFunc func([]string) int) (int, error) {
+func getScore(r io.Reader, calc func([]string) int) (int, error) {
 	totalScore := 0
 	for s := bufio.NewScanner(r); s.Scan(); {
 		moves, err := getMoves(s)
@@ -23,23 +23,20 @@ func getScore(r io.Reader, compFunc func([]string) int) (int, error) {
 			return totalScore, err
 		}
 
-		totalScore += compFunc(moves)
+		totalScore += calc(moves)
 	}
 	return totalScore, nil
 }
 
 func getMoves(s *bufio.Scanner) ([]string, error) {
-	line := s.Text()
-	moves := strings.Split(line, " ")
-
+	moves := strings.Split(strings.ToUpper(s.Text()), " ")
 	if len(moves) != 2 {
 		return nil, errors.New("read a line with more than 2 tokens")
 	}
-
 	return moves, nil
 }
 
-func analyzedRound(moves []string) int {
+func calcPartOne(moves []string) int {
 	score := 0
 	switch moves[1] {
 	case "X": // Rock
@@ -76,7 +73,39 @@ func analyzedRound(moves []string) int {
 	return score
 }
 
-func calculateRound(moves []string) int {
+func calcPartTwo(moves []string) int {
 	score := 0
+	switch moves[1] {
+	case "X": // Lose
+		score += 0
+		switch moves[0] {
+		case "A": // Opponent Picks Rock
+			score += 3 // Pick Scissors
+		case "B": // Opponent Picks Paper
+			score += 1 // Pick Rock
+		case "C": // Opponent Picks Scissors
+			score += 2 // Pick Paper
+		}
+	case "Y": // Draw
+		score += 3
+		switch moves[0] {
+		case "A": // Opponent Picks Rock
+			score += 1 // Pick Rock
+		case "B": // Opponent Picks Paper
+			score += 2 // Pick Paper
+		case "C": // Opponent Picks Scissors
+			score += 3 // Pick Scissors
+		}
+	case "Z": // Win
+		score += 6
+		switch moves[0] {
+		case "A": // Opponent Picks Rock
+			score += 2 // Pick Paper
+		case "B": // Opponent Picks Paper
+			score += 3 // Pick Scissors
+		case "C": // Opponent Picks Scissors
+			score += 1 // Pick Rock
+		}
+	}
 	return score
 }
