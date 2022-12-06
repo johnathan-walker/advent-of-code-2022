@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/johnathan-walker/advent-of-code-2022/data_structures/heap"
+	"github.com/johnathan-walker/advent-of-code-2022/internal/dataStructures/heap"
 )
 
 type CaloricElf struct {
@@ -30,15 +30,14 @@ func (ce *CaloricElf) String() string {
 
 func RunStarOne(r io.Reader) (int, error) {
 	s, h := setupMax(r)
-	readIn(s, &h)
-	maxElf := h.Pop()
-	return maxElf.Calories, nil
+	err := readIn(s, &h)
+	return h.Pop().Calories, err
 }
 
 func RunStarTwo(r io.Reader) ([]int, error) {
 	s, h := setupMax(r)
-	readIn(s, &h)
-	return []int{h.Pop().Calories, h.Pop().Calories, h.Pop().Calories}, nil
+	err := readIn(s, &h)
+	return []int{h.Pop().Calories, h.Pop().Calories, h.Pop().Calories}, err
 }
 
 func setupMax(r io.Reader) (*bufio.Scanner, heap.MaxHeap[CaloricElf]) {
