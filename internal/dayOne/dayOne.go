@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"log"
 	"strconv"
 	"strings"
 
@@ -29,21 +28,39 @@ func (ce *CaloricElf) String() string {
 	return string(b)
 }
 
-func Run(r io.ReadCloser) (int, error) {
+func RunStarOne(r io.Reader) (int, error) {
+	s, h := setupMax(r)
+	readIn(s, &h)
+	maxElf := h.Pop()
+	return maxElf.Calories, nil
+}
+
+func RunStarTwo(r io.Reader) ([]int, error) {
+	s, h := setupMax(r)
+	readIn(s, &h)
+	return []int{h.Pop().Calories, h.Pop().Calories, h.Pop().Calories}, nil
+}
+
+func setupMax(r io.Reader) (*bufio.Scanner, heap.MaxHeap[CaloricElf]) {
 	s := bufio.NewScanner(r)
 	s.Split(bufio.ScanLines)
 
 	h := make(heap.MaxHeap[CaloricElf], 0)
 	h.Init()
+
+	return s, h
+}
+
+func readIn(s *bufio.Scanner, h *heap.MaxHeap[CaloricElf]) error {
 	i := 1
 	currentElf := &CaloricElf{
 		Calories: 0,
 		ID:       i,
 	}
+
 	for s.Scan() {
 		token := strings.TrimSpace(s.Text())
 		if token == "" {
-			log.Printf("Pushing %s\n", currentElf)
 			h.Push(*currentElf)
 			i++
 			currentElf = &CaloricElf{
@@ -56,11 +73,11 @@ func Run(r io.ReadCloser) (int, error) {
 
 		intToken, err := strconv.Atoi(token)
 		if err != nil {
-			return 0, fmt.Errorf("could not int parse token %s: %w", token, err)
+			return fmt.Errorf("could not int parse token %s: %w", token, err)
 		}
 
 		currentElf.Calories += intToken
 	}
-	maxElf := h.Pop()
-	return maxElf.Calories, nil
+
+	return nil
 }
