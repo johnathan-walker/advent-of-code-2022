@@ -4,6 +4,20 @@
 
 This repository contains a cli which will generate the answers for [Advent Of Code 2022](https://adventofcode.com/2022).
 
+## Usage
+
+To use:
+
+```bash
+./advent-of-code-2022 <day> <star>
+```
+
+For help:
+
+```bash
+./advent-of-code-2022 -h
+```
+
 ## Installation
 
 ### Build
